@@ -17,7 +17,28 @@ This runs the full analysis pipeline with demo data — risk assessment, compone
 
 ## CLI Commands
 
-CommandDescriptionwk analyze fullTHE KEY COMMAND — runs all analysis engines in a single reportwk analyze riskCompute 0-100 risk score with 7 weighted factorswk analyze reviewersSuggest reviewers from git blame + CODEOWNERSwk analyze styleCheck WebKit coding conventions (7 rules)wk analyze wptMap changed source files to WPT spec coveragewk pr listList recent pull requests with statuswk pr status <n>Show detailed PR status, CI checks, reviewswk pr createPreview PR creation from current branchwk pr land <n>Preview WebKit-format commit message for landingwk branch listList branches with ahead/behind trackingwk branch cleanFind merged branches safe to deletewk branch rebaseRebase current branch onto mainwk test predictPredict which tests to run for changed fileswk test wpt-checkCheck WPT coverage for changed source fileswk test runExecute predicted test suitewk bug link <id>Link a Bugzilla bug to the current branchwk bug createCreate a new Bugzilla bug from current changeswk bug syncSync bug status between Bugzilla and GitHubwk statusDense overview of branch, PR, and CI state
+| Command | Description |
+|---|---|
+| `wk analyze full` | **THE KEY COMMAND** — runs all analysis engines in a single report |
+| `wk analyze risk` | Compute 0-100 risk score with 7 weighted factors |
+| `wk analyze reviewers` | Suggest reviewers from git blame + CODEOWNERS |
+| `wk analyze style` | Check WebKit coding conventions (7 rules) |
+| `wk analyze wpt` | Map changed source files to WPT spec coverage |
+| `wk pr list` | List recent pull requests with status |
+| `wk pr status <n>` | Show detailed PR status, CI checks, reviews |
+| `wk pr create` | Preview PR creation from current branch |
+| `wk pr land <n>` | Preview WebKit-format commit message for landing |
+| `wk branch list` | List branches with ahead/behind tracking |
+| `wk branch clean` | Find merged branches safe to delete |
+| `wk branch rebase` | Rebase current branch onto main |
+| `wk test predict` | Predict which tests to run for changed files |
+| `wk test wpt-check` | Check WPT coverage for changed source files |
+| `wk test run` | Execute predicted test suite |
+| `wk bug link <id>` | Link a Bugzilla bug to the current branch |
+| `wk bug create` | Create a new Bugzilla bug from current changes |
+| `wk bug sync` | Sync bug status between Bugzilla and GitHub |
+| `wk status` | Dense overview of branch, PR, and CI state |
+
 > **WPT Integration**: The WebKit Developer Productivity team's description explicitly calls out Web Platform Tests. `wk analyze wpt` and `wk test wpt-check` map 40+ WebCore source patterns to their corresponding WPT spec directories, identifying coverage gaps before code review. This ensures that changes to CSS, DOM, Fetch, WebGPU, and other web platform features have corresponding WPT test coverage.
 
 Every command supports a `--demo` flag for testing without a live git repository or API credentials.
@@ -225,7 +246,7 @@ Running `wk analyze full --demo` produces the complete analysis report:
 
 ## Why This Exists
 
-WebKit's existing `webkit-patch` tool handles basic PR operations, but doesn't predict test failures, map WPT coverage, score change risk, or suggest reviewers. `wk` fills these gaps with algorithms specifically designed for WebKit's codebase structure and contribution workflow. Every feature maps directly to the WebKit Developer Productivity team's responsibilities.
+WebKit's existing `webkit-patch` tool handles basic PR operations, but doesn't predict test failures, map WPT coverage, score change risk, or suggest reviewers. `wk` fills these gaps with algorithms specifically designed for WebKit's codebase structure and contribution workflow.
 
 ---
 
@@ -335,16 +356,3 @@ cp .env.example .env
 | `WK_DATA_DIR` | Optional | Data directory (default: `~/.wk-toolkit`) |
 
 All commands work in `--demo` mode without any configuration.
-
----
-
-## JD Alignment
-
-| JD Responsibility | Commands | Key Feature |
-|---|---|---|
-| CLI tools for PR workflows | `wk pr create/status/land/list` | Modern Click CLI with Rich output |
-| Branch management | `wk branch list/clean/rebase` | Ahead/behind tracking, merged branch cleanup |
-| Pre-commit testing | `wk test predict/run` | Test prediction engine (4-rule system) |
-| WPT integration | `wk test wpt-check`, `wk analyze wpt` | 40+ source-to-WPT-spec mappings |
-| Bug tracker bridges | `wk bug link/create/sync` | Bugzilla REST API + auto-extraction |
-| Productivity improvements | `wk analyze full/risk/reviewers/style` | Risk scoring, reviewer finder, style checker |

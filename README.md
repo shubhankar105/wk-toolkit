@@ -17,7 +17,7 @@ This runs the full analysis pipeline with demo data — risk assessment, compone
 
 ## Architecture
 
-![Architecture](wk-toolkit-architecture_1.png)
+![Architecture](wk-toolkit-architecture_1.jpg)
 
 **Data flow for `wk analyze full`:**
 

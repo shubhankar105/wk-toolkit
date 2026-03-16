@@ -13,6 +13,28 @@ wk analyze full --demo
 
 This runs the full analysis pipeline with demo data — risk assessment, component impact, test prediction, WPT coverage, reviewer suggestions, style checking, and commit message generation — all in one command.
 
+![Demo Output](demo.png)
+
+---
+
+## Architecture
+
+![Architecture](architecture.png)
+
+**Data flow for `wk analyze full`:**
+
+```
+git diff → changed files
+     ├──→ ComponentClassifier  → component breakdown
+     ├──→ TestPredictor        → predicted test suite
+     ├──→ WPTMapper            → WPT coverage report
+     ├──→ RiskScorer           → 0-100 risk score
+     ├──→ ReviewerFinder       → ranked reviewer list
+     ├──→ StyleChecker         → style violations
+     ├──→ BuildDetector        → build system warnings
+     └──→ CommitFormatter      → WebKit-format commit message
+```
+
 ---
 
 ## CLI Commands
@@ -42,47 +64,6 @@ This runs the full analysis pipeline with demo data — risk assessment, compone
 > **WPT Integration**: The WebKit Developer Productivity team's description explicitly calls out Web Platform Tests. `wk analyze wpt` and `wk test wpt-check` map 40+ WebCore source patterns to their corresponding WPT spec directories, identifying coverage gaps before code review. This ensures that changes to CSS, DOM, Fetch, WebGPU, and other web platform features have corresponding WPT test coverage.
 
 Every command supports a `--demo` flag for testing without a live git repository or API credentials.
-
----
-
-## Architecture
-
-```
-┌─────────────────────────────────────────────────────────┐
-│                      CLI Layer (Click)                  │
-│  wk analyze | wk pr | wk branch | wk test | wk bug    │
-├─────────────────────────────────────────────────────────┤
-│                   Formatters (Rich)                     │
-│  Tables, Panels, Progress bars, Color-coded output      │
-├─────────────────────────────────────────────────────────┤
-│                    Core Engines                         │
-│  ComponentClassifier | TestPredictor | WPTMapper        │
-│  RiskScorer | ReviewerFinder | StyleChecker             │
-│  CommitFormatter | BuildDetector                        │
-├─────────────────────────────────────────────────────────┤
-│                    API Clients (httpx)                  │
-│  GitHubClient | BugzillaClient | BuildbotClient         │
-│  GitClient (subprocess)                                 │
-├─────────────────────────────────────────────────────────┤
-│                  External Services                      │
-│  GitHub API | bugs.webkit.org | build.webkit.org        │
-│  Local git repository                                   │
-└─────────────────────────────────────────────────────────┘
-```
-
-**Data flow for `wk analyze full`:**
-
-```
-git diff → changed files
-     ├──→ ComponentClassifier  → component breakdown
-     ├──→ TestPredictor        → predicted test suite
-     ├──→ WPTMapper            → WPT coverage report
-     ├──→ RiskScorer           → 0-100 risk score
-     ├──→ ReviewerFinder       → ranked reviewer list
-     ├──→ StyleChecker         → style violations
-     ├──→ BuildDetector        → build system warnings
-     └──→ CommitFormatter      → WebKit-format commit message
-```
 
 ---
 

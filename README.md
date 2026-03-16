@@ -13,13 +13,11 @@ wk analyze full --demo
 
 This runs the full analysis pipeline with demo data — risk assessment, component impact, test prediction, WPT coverage, reviewer suggestions, style checking, and commit message generation — all in one command.
 
-![Demo Output](demo.png)
-
 ---
 
 ## Architecture
 
-![Architecture](architecture.png)
+![Architecture](wk-toolkit-architecture_1.png)
 
 **Data flow for `wk analyze full`:**
 
